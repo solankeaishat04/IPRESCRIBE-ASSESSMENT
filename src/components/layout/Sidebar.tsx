@@ -1,5 +1,3 @@
-// components/layout/Sidebar.tsx
-
 import {
   Box,
   List,
@@ -73,7 +71,7 @@ export const Sidebar = () => {
     <Box
       sx={{
         width: collapsed ? 80 : drawerWidth,
-        minHeight: '100vh',
+        height: '100vh',
         background: 'linear-gradient(180deg, #283C85 0%, #090E1F 100%)',
         color: '#FFFFFF',
         display: 'flex',
@@ -182,7 +180,13 @@ export const Sidebar = () => {
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle}
-          sx={{ position: 'fixed', top: 16, left: 16, zIndex: 1200 }}
+          sx={{ 
+            position: 'fixed', 
+            top: 16, 
+            left: 16, 
+            zIndex: 1300,
+            display: { xs: 'block', md: 'none' },
+          }}
         >
           <MenuIcon />
         </IconButton>
@@ -192,9 +196,11 @@ export const Sidebar = () => {
           onClose={handleDrawerToggle}
           ModalProps={{ keepMounted: true }}
           sx={{
+            display: { xs: 'block', md: 'none' },
             '& .MuiDrawer-paper': {
               width: drawerWidth,
               boxSizing: 'border-box',
+              border: 'none',
             },
           }}
         >
@@ -204,5 +210,23 @@ export const Sidebar = () => {
     );
   }
 
-  return drawerContent;
+  // DESKTOP VERSION - FIXED POSITION
+  return (
+    <Box
+      component="nav"
+      sx={{
+        width: collapsed ? 80 : drawerWidth,
+        flexShrink: 0,
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        height: '100vh',
+        zIndex: 1200,
+        display: { xs: 'none', md: 'block' },
+        transition: 'width 0.3s ease',
+      }}
+    >
+      {drawerContent}
+    </Box>
+  );
 };
