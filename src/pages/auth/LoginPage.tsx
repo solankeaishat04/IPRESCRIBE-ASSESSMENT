@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { 
   Box, Typography, TextField, Button, 
@@ -8,9 +8,8 @@ import {
 import { Visibility, VisibilityOff, ArrowBack } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import brandLogo from "../../assets/icons/IPRESCRIBE LOGO 3 1.svg"
+import brandLogo from "../../assets/icons/IPRESCRIBE LOGO 3 1.svg";
 import { useLogin } from '../../hooks/useLogin';
-import { useAuth } from '../../contexts/AuthContext';
 
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
@@ -19,74 +18,33 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({ email: '', password: '' });
-  const [apiError, setApiError] = useState('');
   const navigate = useNavigate();
   
   const loginMutation = useLogin();
-  const { login: authLogin } = useAuth();
-
-  const validateForm = () => {
-    const newErrors = { email: '', password: '' };
-    let isValid = true;
-
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Please enter a valid email address';
-      isValid = false;
-    }
-
-    if (!password) {
-      newErrors.password = 'Password is required';
-      isValid = false;
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    setApiError(''); // Clear API error on new validation
-    return isValid;
-  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
+    // Simple validation
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+      return;
+    }
+    
+    if (!password || password.length < 6) {
+      return;
+    }
 
     try {
-      const response = await loginMutation.mutateAsync({ email, password });
+      await loginMutation.mutateAsync({ email, password });
+    
+    } catch (error) {
       
-      if (response.status === 200) {
-        // Use auth context to login
-        authLogin(response.data.token, response.data.user);
-        
-        // Check if user has admin role
-        const hasAdminRole = response.data.user.roles.some((role: any) => role.slug === 'admin');
-        
-        if (hasAdminRole) {
-          navigate('/dashboard');
-        } else {
-          setApiError('Admin access required. Please use an admin account.');
-        }
-      }
-    } catch (error: any) {
-      // Handle API errors
-      const errorMessage = error.message || 'Login failed. Please check your credentials and try again.';
-      setApiError(errorMessage);
+      console.log('Login failed');
     }
   };
 
   const handleBackToHome = () => {
     navigate('/');
-  };
-
-  const handleClearErrors = () => {
-    setErrors({ email: '', password: '' });
-    setApiError('');
-    loginMutation.reset();
   };
 
   return (
@@ -124,7 +82,7 @@ export const LoginPage = () => {
           overflow: 'hidden',
         }}
       >
-        {/* Back to home button - Added back */}
+        {/* Back to home button */}
         <IconButton
           onClick={handleBackToHome}
           sx={{
@@ -138,7 +96,7 @@ export const LoginPage = () => {
           <ArrowBack />
         </IconButton>
 
-        {/* Logo Section - Simplified */}
+        {/* Logo Section */}
         <MotionBox
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -161,7 +119,7 @@ export const LoginPage = () => {
           />
         </MotionBox>
 
-        {/* Main Header - Exactly matching the image */}
+        {/* Header */}
         <MotionBox
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -192,8 +150,8 @@ export const LoginPage = () => {
           </Typography>
         </MotionBox>
 
-        {/* Error Alert */}
-        {(loginMutation.isError || apiError) && (
+        {/* Error Alert - Only show if there's an error */}
+        {loginMutation.isError && (
           <MotionBox
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -205,9 +163,8 @@ export const LoginPage = () => {
                 borderRadius: '12px',
                 alignItems: 'center'
               }}
-              onClose={handleClearErrors}
             >
-              {apiError || 'Invalid credentials. Please try again.'}
+              {loginMutation.error?.message || 'Invalid credentials. Please try again.'}
             </Alert>
           </MotionBox>
         )}
@@ -243,13 +200,7 @@ export const LoginPage = () => {
               placeholder="+e.g.daming@aabweekend.edu.com"
               variant="outlined"
               value={email} 
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setErrors(prev => ({ ...prev, email: '' }));
-                setApiError('');
-              }}
-              error={!!errors.email}
-              helperText={errors.email}
+              onChange={(e) => setEmail(e.target.value)}
               disabled={loginMutation.isPending}
               sx={{ 
                 mb: 3, 
@@ -290,16 +241,10 @@ export const LoginPage = () => {
             <TextField
               fullWidth 
               type={showPassword ? 'text' : 'password'}
-              placeholder=""  // Empty placeholder to match image
+              placeholder=""
               variant="outlined"
               value={password} 
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setErrors(prev => ({ ...prev, password: '' }));
-                setApiError('');
-              }}
-              error={!!errors.password}
-              helperText={errors.password}
+              onChange={(e) => setPassword(e.target.value)}
               disabled={loginMutation.isPending}
               InputProps={{
                 endAdornment: (
@@ -356,7 +301,7 @@ export const LoginPage = () => {
               {loginMutation.isPending ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (
-                'Login'  
+                'Login'
               )}
             </Button>
           </MotionBox>

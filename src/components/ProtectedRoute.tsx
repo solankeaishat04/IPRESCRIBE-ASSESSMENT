@@ -1,40 +1,30 @@
-import React from 'react';
+// components/ProtectedRoute.tsx
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { CircularProgress, Box } from '@mui/material';
+import { Layout } from './layout/Layout';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
   requireAdmin?: boolean;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireAdmin = false }) => {
-  const { isAuthenticated, isAdmin, isLoading } = useAuth();
+const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
+  const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+    return <div>Loading...</div>; // Or a loading spinner
   }
 
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  if (requireAdmin && !isAdmin) {
+  if (requireAdmin && !user.roles?.some(role => role.slug === 'admin')) {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  return <>{children}</>;
+  
+  return <Layout>{children}</Layout>;
 };
 
 export default ProtectedRoute;
