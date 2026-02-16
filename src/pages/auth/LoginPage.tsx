@@ -8,7 +8,7 @@ import {
 import { Visibility, VisibilityOff, ArrowBack } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import brandLogo from "../../assets/icons/IPRESCRIBE LOGO 3 1.svg";
+import brandLogo from '../../assets/icons/IPRESCRIBE LOGO 3 1.svg';
 import { useLogin } from '../../hooks/useLogin';
 
 const MotionBox = motion(Box);

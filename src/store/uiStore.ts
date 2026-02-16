@@ -1,12 +1,3 @@
-import { create } from "zustand";
+// Deprecated compatibility shim: re-export `useUI` from Context-based implementation
+export { useUI as useUIStore } from "../contexts/UIContext";
 
-interface UIState {
-  sidebarOpen: boolean;
-  toggleSidebar: () => void;
-}
-
-export const useUIStore = create<UIState>((set) => ({
-  sidebarOpen: false,
-  toggleSidebar: () =>
-    set((state) => ({ sidebarOpen: !state.sidebarOpen })),
-}));

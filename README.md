@@ -1,73 +1,65 @@
-# React + TypeScript + Vite
+iPrescribe Frontend Assessment
+Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is the frontend implementation for the iPrescribe internship assessment. It includes:
 
-Currently, two official plugins are available:
+Coming Soon Landing Page (Web & Mobile)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Dashboard Page
 
-## React Compiler
+The goal was to replicate the Figma designs as closely as possible, ensuring the pages look and feel exactly like the designs. The app is fully responsive for desktop, tablet, and mobile screens.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Technologies Used
 
-## Expanding the ESLint configuration
+React – Building the UI components
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Material UI (MUI) – Ready-made UI components and styling
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+React Query (TanStack) – Managing data and simulating API calls
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Context API – Global state management (for managing Dashboard UI state)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+React Router – Page navigation
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+CSS / MUI SX – Custom styling when needed
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Features
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Responsive Landing Page and Dashboard
+
+Clean, reusable components for easier maintenance
+
+Simulated dynamic data using React Query
+
+Global state handled with React Context API
+
+Bonus features:
+
+Light animations on buttons and cards
+
+
+How to Run the Project
+
+Clone the project
+
+git clone <>
+cd iprescribe-frontend
+
+
+Install dependencies
+
+npm install
+# or
+yarn install
+
+
+Start the development server
+
+npm run dev
+# or
+yarn dev
+
+
+Open the app in your browser
+
+http://localhost:5173
