@@ -1,13 +1,13 @@
-"use client"; // if using Next.js App Router, optional in React
+
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider, createTheme } from "@mui/material";
-import { BrowserRouter as Router } from "react-router-dom"; // Router at top level
+import { BrowserRouter as Router } from "react-router-dom"; 
 import { AuthProvider } from "./contexts/AuthContext";
 import { UIProvider } from "./contexts/UIContext";
 import AppRoutes from "./routes/AppRoutes";
 
-// Create QueryClient
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
   },
 });
 
-// Create MUI theme
+
 const theme = createTheme({
   palette: {
     primary: {
